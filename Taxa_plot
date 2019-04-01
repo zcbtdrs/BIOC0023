@@ -1,0 +1,43 @@
+#!/bin/bash --login
+#PBS -l walltime=03:00:00
+#PBS -l select=1:ncpus=16
+#PBS -N taxa_plot
+#PBS -A d411-training
+#PBS -j oe
+
+### script start
+
+echo "setting temporary directory"
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+echo "loading virtual environment"
+conda deactivate
+conda activate qiime1
+
+echo "creating and cd to output directory"
+cd ~/output/taxa_summ/
+
+time plot_taxa_summary.py \
+-i ~/output/taxa_summ/summ_taxa/otu_table_L2.txt \
+-o ~/output/taxa_summ/table_2 \
+
+time plot_taxa_summary.py \
+-i ~/output/taxa_summ/summ_taxa/otu_table_L3.txt \
+-o ~/output/taxa_summ/table_3 \
+
+time plot_taxa_summary.py \
+-i ~/output/taxa_summ/summ_taxa/otu_table_L4.txt \
+-o ~/output/taxa_summ/table_4 \
+
+time plot_taxa_summary.py \
+-i ~/output/taxa_summ/summ_taxa/otu_table_L5.txt \
+-o ~/output/taxa_summ/table_5 \
+
+time plot_taxa_summary.py \
+-i ~/output/taxa_summ/summ_taxa/otu_table_L6.txt \
+-o ~/output/taxa_summ/table_6 \
+
+conda deactivate
+
+

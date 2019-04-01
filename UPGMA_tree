@@ -1,0 +1,24 @@
+#!/bin/bash --login
+#PBS -l walltime=03:00:00
+#PBS -l select=1:ncpus=16
+#PBS -N UPGMA
+#PBS -A d411-training
+#PBS -j oe
+
+echo "setting temporary directory"
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+echo "loading virtual environment"
+conda deactivate
+conda activate qiime1
+
+echo "creating and cd to output directory"
+mkdir -p ~/output/UPGMAtree/
+cd ~/output/UPGMAtree/
+
+upgma_cluster.py \
+-i ~/output/tables_diversity/output/bdiv_even34000/unweighted_unifrac_dm.txt \
+-o upgma \
+
+conda deactivate

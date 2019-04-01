@@ -1,0 +1,35 @@
+#!/bin/bash --login
+#PBS -l select=1:ncpus=16
+#PBS -l walltime=02:00:00
+#PBS -A d411-training
+#PBS -N pickOTU_joined
+#PBS -A d411-training
+#PBS -j oe
+
+echo "setting temporary directory"
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+echo "loading virtual environment"
+conda deactivate
+conda activate qiime1
+
+echo "creating and cd to output directory"
+mkdir -p ~/output/pickOTU_joined/
+cd ~/output/pickOTU_joined/
+
+# QIIME code
+
+for i in {1..3}
+do
+	echo "run $i"
+	time pick_closed_reference_otus.py \
+	-i ~/output/team8_demultplx_joined/joined/seqs.fna \
+	-o otus \
+	-f -a -O 16
+
+done
+
+echo "closing environment"
+conda deactivate
+

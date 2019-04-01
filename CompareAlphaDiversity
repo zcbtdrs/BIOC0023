@@ -1,0 +1,30 @@
+#!/bin/bash --login
+#PBS -l walltime=03:00:00
+#PBS -l select=1:ncpus=16
+#PBS -N alpha_div
+#PBS -A d411-training
+#PBS -j oe
+
+### script start
+
+echo "setting temporary directory"
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+echo "loading virtual environment"
+conda deactivate
+conda activate qiime1
+
+echo "creating and cd to output directory"
+mkdir -p ~/output/alpha_out/
+cd ~/output/alpha_out/
+
+time compare_alpha_diversity.py \
+-i ~/PD_whole_tree_Barcode_Gone.txt \
+-m ~/mapping_file_team8.tsv \
+-c Rind_or_Core,Country,Region,Raw_or_Pasteurised,Store,Store_Type,Soft_or_Hard \
+-o PD_whole_tree_barcodegone \
+
+conda deactivate
+
+
